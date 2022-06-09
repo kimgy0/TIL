@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .field-error {
+            color: #bd2130;
+            border-color: #dc3545;
+        }
+        header {
+            width: 100%;
+            background-color: #2eaab7;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 170px;
+            padding: 1rem;
+            color: white;
+            font-weight: bold;
+            display: inline-block;
+            justify-content: space-between;
+            align-items: center;
+            vertical-align: middle;
+        }
+    </style>
+
+    <link rel="stylesheet" href="home.css" type="text/css" />
+</head>
+<body class=padding-top>
+    <div>
+        <header>
+            <div id="title">oEmbed Test</div>
+            <div th:object="${urlDto}">
+                <form method="post" th:action="|/|">
+                    <div id="input_Box">
+                        <input type="text" th:field="*{url}" placeholder="" id="urlText">
+                        <button type="submit" th:text="전송"></button>
+                    </div>
+                </form>
+            </div>
+        </header>
+        <article>
+            <div id="content_wrap">
+                <div id="title_container" th:object="${content}">
+                    <div>
+                        <div th:text="title"></div>
+                        <th:block th:if="${not #strings.isEmpty(content.title)}">
+                            <div th:text="*{title}"></div>
+                        </th:block>
+                        <th:block th:if="${#strings.isEmpty(content.title)}">
+                            <div> - </div>
+                        </th:block>
+                    </div>
+                </div>
+                <ul id="responseDataInContainer" th:object="${content}">
+                    <li>
+                        <div>
+                            <div class="left" th:text="type"></div>
+                            <th:block th:if="*{type != null}">
+                                <div class="right" th:text="*{type}"></div>
+                            </th:block>
+                            <th:block th:block th:if="*{type == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="version"></div>
+                            <th:block th:if="*{version != null}">
+                                <div class="right" th:text="*{version}"></div>
+                            </th:block>
+                            <th:block th:if="*{version == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left"  th:text="provider_name"></div>
+                            <th:block th:if="*{providerName != null}">
+                                <div class="right" th:text="*{providerName}"></div>
+                            </th:block>
+                            <th:block th:block th:if="*{providerName == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="author_name"></div>
+                            <th:block th:if="*{authorName != null}">
+                                <div class="right" th:text="*{authorName}"></div>
+                            </th:block>
+                            <th:block th:block th:if="*{authorName == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="provider_url"></div>
+                            <th:block th:if="*{providerUrl != null}">
+                                <div class="right" th:text="*{providerUrl}"></div>
+                            </th:block>
+                            <th:block th:block th:if="*{providerUrl == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="author_url"></div>
+                            <th:block th:if="*{authorUrl != null}">
+                                <div class="right" th:text="*{authorUrl}"></div>
+                            </th:block>
+                            <th:block th:block th:if="*{authorUrl == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="is_plus"></div>
+                            <div th:text="*{isPlus}"></div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div>
+                            <div class="left" th:text="'html'+*{width}+'/'+*{height}"></div>
+                            <th:block class="right" th:if="*{html != null}">
+                                <div th:text="*{html}"></div><br>
+                                <div th:utext="*{html}"><xmp th:utext="*{html}"></xmp></div>
+                            </th:block>
+                            <th:block th:block th:if="*{html == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="width"></div>
+                            <div th:text="*{width}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="height"></div>
+                            <div th:text="*{height}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="duration"></div>
+                            <div th:text="*{duration}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="thumbnail_url"></div>
+                            <th:block th:if="*{thumbnailUrl != null}">
+                                <div class="right" >
+                                    <a th:href="*{thumbnailUrl}" th:text="*{thumbnailUrl}"></a><br>
+                                    <img th:src="*{thumbnailUrl}"></img>
+                                </div>
+                            </th:block>
+                            <th:block th:block th:if="*{thumbnailUrl == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="thumbnail_width"></div>
+                            <div class="right" th:text="*{thumbnailWidth}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="thumbnail_height"></div>
+                            <div th:text="*{thumbnailHeight}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left"  th:text="thumbnail_url_with_play_button"></div>
+                            <th:block th:if="*{thumbnailUrlWithPlayButton != null}">
+                                <div class="right" ><a th:href="*{thumbnailUrlWithPlayButton}" th:text="*{thumbnailUrlWithPlayButton}"></a></div>
+                            </th:block>
+                            <th:block th:block th:if="*{thumbnailUrlWithPlayButton == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="upload_date"></div>
+                            <th:block th:if="*{uploadDate != null}">
+                                <div class="right" th:text="*{uploadDate}"></div>
+                            </th:block>
+                            <th:block th:block th:if="*{uploadDate == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="video_id"></div>
+                            <th:block th:if="*{videoId != null}">
+                                <div class="right" th:text="*{videoId}"></div>
+                            </th:block>
+                            <th:block th:block th:if="*{videoId == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="left" th:text="uri"></div>
+                            <th:block th:if="*{uri != null}">
+                                <div class="right" th:text="*{uri}"></div>
+                            </th:block>
+                            <th:block th:block th:if="*{uri == null}">
+                                <div> - </div>
+                            </th:block>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </div>
+</body>
+</html>

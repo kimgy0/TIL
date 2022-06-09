@@ -55,6 +55,13 @@ public class ContentDto {
 
     private String uri;
 
+    @JsonProperty(value = "video_id")
+    private String videoId;
+
+    @JsonProperty(value = "is_plus")
+    private int isPlus;
+
+
     @JsonProperty(value = "html")
     private String html;
 }

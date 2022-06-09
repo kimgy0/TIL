@@ -17,19 +17,21 @@ public class HomeService {
     private final ProviderFeignService providerFeignService;
     private final ContentFeignService contentFeignService;
 
-    public ContentDto getContent(String videoUrl) throws URISyntaxException {
+    public ContentDto getContent(String videoUrl) {
 
         List<ProviderDto> providers = providerFeignService.findAllProvider();
 
-        System.out.println("videoUrl = " + videoUrl);
         for (ProviderDto provider : providers) {
             String providerName = provider.getProviderName().toLowerCase();
 
             if(videoUrl.contains(providerName)){
                 String endpoint = provider.getEndPoints().get(BaseConst.FIRST_INDEX).getUrl();
                 DomainType domain = DomainType.valueOf(providerName.toUpperCase());
-
-                return contentFeignService.getContentByFeign(domain, endpoint, videoUrl);
+                try {
+                    return contentFeignService.getContentByFeign(domain, endpoint, videoUrl);
+                } catch (Exception e) {
+                    return new ContentDto();
+                }
             }
         }
 

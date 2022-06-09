@@ -24,23 +24,28 @@ public class ContentFeignService {
     private final TwitterFeign twitterFeign;
     private final VimeoFeign vimeoFeign;
     private final YoutubeFeign youtubeFeign;
+    private final InstagramFeign instagramFeign;
 
     public ContentDto getContentByFeign(DomainType domainType, String endPoint, String videoUrl) throws URISyntaxException {
 
-        if(DomainType.YOUTUBE.equals(domainType)){
-            return youtubeFeign.getContent(new URI(endPoint),videoUrl,BaseConst.JSON_FORMAT);
+        try{
+            if(DomainType.YOUTUBE.equals(domainType)){
+                return youtubeFeign.getContent(new URI(endPoint),videoUrl,BaseConst.JSON_FORMAT);
+            }
+            if(DomainType.INSTAGRAM.equals(domainType)){
+                return instagramFeign.getContent(new URI(endPoint),videoUrl,"fake");
+            }
+            if(DomainType.TWITTER.equals(domainType)){
+                return twitterFeign.getContent(new URI(endPoint),videoUrl);
+            }
+            if(DomainType.VIMEO.equals(domainType)){
+                return vimeoFeign.getContent(new URI(endPoint.replace("{format}", BaseConst.JSON_FORMAT)), videoUrl);
+            }
+            throw new IllegalArgumentException("not supported url");
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new IllegalArgumentException("not found page");
         }
-        if(DomainType.INSTAGRAM.equals(domainType)){
-            return null;
-        }
-        if(DomainType.TWITTER.equals(domainType)){
-            return twitterFeign.getContent(new URI(endPoint),videoUrl);
-        }
-        if(DomainType.VIMEO.equals(domainType)){
-            return vimeoFeign.getContent(new URI(endPoint.replace("{format}",BaseConst.JSON_FORMAT)),videoUrl);
-        }
-
-        throw new IllegalArgumentException("not supported url");
     }
 
 }
