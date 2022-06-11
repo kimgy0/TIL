@@ -7,7 +7,6 @@ import com.oEmbed.demo.web.home.dto.ProviderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 @Service
